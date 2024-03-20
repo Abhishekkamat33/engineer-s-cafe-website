@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+<link rel="stylesheet" href="/stylesheets/admin.css">
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul>
+                <li><a href="#" onclick="overview()">overview</a></li>
+                <li><a href="#" onclick="showUsers()">Users</a></li>
+                <li><a href="#" onclick="showProducts()">Products</a></li>
+                <li><a href="#" onclick="showPopulars()">Popularproducts</a></li>
+                <li><a href="#" onclick="showPayments()">order</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="overview" style="display: block;">
+        <div class="over">
+        <div class="overview-item">
+            <h2>Total Users</h2>
+            <p class="value">
+                <%= users.length %>
+            </p>
+        </div>
+        <div class="overview-item">
+            <h2>Total Products</h2>
+            <p class="value">
+                <%= products.length %>
+            </p>
+        </div>
+        <div class="overview-item">
+            <h2>Total popular Products</h2>
+            <p class="value">
+                <%= populars.length %>
+            </p>
+        </div>
+        <div class="overview-item">
+            <h2>Total orders</h2>
+            <p class="value"><%= orders.length %></p>
+        </div>
+    </div>
+    </div>
+    <div class="content">
+        <div id="users" style="display:none;">
+            <!-- User Information Display -->
+            <!-- You would fetch and display user information here -->
+            <h2>Users</h2>
+            <% var userJson=JSON.stringify(users); %>
+                <div id="userList">
+
+                </div>
+                <button id="showMoreBtn">Show More</button>
+        </div>
+        <div id="products" style="display:none;">
+            <!-- Product Information Display -->
+            <!-- You would fetch and display product information here -->
+            <h2>Products</h2>
+            <div id="productList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(product=> { %>
+                            <tr>
+                                <td><img src="<%= product.image_url %>" alt="<%= product.name %>"></td>
+                                <td>
+                                    <%= product.name %>
+                                </td>
+                                <td>&#8377;<%= product.price %>
+                                </td>
+                                <td>
+                                    <%= product.category %>
+                                </td>
+                                <td>
+                                    <%= product.description %>
+                                </td>
+                                <td>
+                                    <button class="deleteproduct" data-product-id="<%= product._id %>">Delete</button>
+                                    <button class="editproduct" data-product-id="<%= product._id %>"
+                                        data-product-name="<%= product.name %>"
+                                        data-product-image="<%= product.image %>"
+                                        data-product-price="<%= product.price %>"
+                                        data-product-category="<%= product.category %>"
+                                        data-product-description="<%= product.description %>">Edit</button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slide-form-container">
+                <div class="slide-form">
+                    <form id="productForm" action="/admin/product" method="POST" enctype="multipart/form-data">
+                        <input type="file" id="productImage" name="image" accept="image/*" required>
+                        <input type="text" id="productName" name="name" placeholder="Popular Item Name" required>
+                        <input type="number" id="productPrice" name="price" placeholder="Price" required>
+                        <input type="text" id="productCategory" name="category" placeholder="Category" required>
+                        <textarea id="productDescription" name="description" placeholder="Description"
+                            required></textarea>
+                        <input type="submit" class="add-product-button" value="Add Product Item">
+                    </form>
+                </div>
+                <button class="slide-button" onclick="toggleSlide()">Add Food</button>
+            </div>
+            <div class="edit-form-container" style="display:none;">
+                <form id="editProductForm" action="/admin/:_id" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="editProductId" name="id">
+                    <input type="file" id="editProductImage" name="image" accept="image/*" required>
+                    <input type="text" id="editProductName" name="name" placeholder="Popular Item Name" required>
+                    <input type="number" id="editProductPrice" name="price" placeholder="Price" required>
+                    <input type="text" id="editProductCategory" name="category" placeholder="Category" required>
+                    <textarea id="editProductDescription" name="description" placeholder="Description"
+                        required></textarea>
+                    <input type="submit" class="edit-product-button" id="update" value="Update Product">
+                </form>
+            </div>
+        </div>
+        <div id="populars" style="display:none;">
+            <!-- Product Information Display -->
+            <!-- You would fetch and display product information here -->
+            <h2>Popular products</h2>
+            <div id="productList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Description</ th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% populars.forEach(popular=> { %>
+                            <tr>
+                                <td><img src="<%= popular.image_url%>" alt="<%= popular.name %>"></td>
+                                <td>
+                                    <%= popular.name %>
+                                </td>
+                                <td>&#8377;<%= popular.price %>
+                                </td>
+                                <td>
+                                    <%= popular.category %>
+                                </td>
+                                <td>
+                                    <%= popular.description %>
+                                </td>
+                                <td>
+                                    <button class="deleteproduct" data-product-id="<%= popular._id %>">Delete</button>
+                                    <button class="editproducts" data-popular-id="<%= popular._id %>"
+                                        data-popular-name="<%= popular.name %>"
+                                        data-popular-image="<%= popular.image %>"
+                                        data-popular-price="<%= popular.price %>"
+                                        data-popular-category="<%= popular.category %>"
+                                        data-popular-description="<%= popular.description %>">Edit</button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slide-form-container">
+                <div class="slide-forms">
+                    <form id="popularForm" action="/admin/popular" method="POST" enctype="multipart/form-data">
+                        <input type="file" id="popularImage" name="image" accept="image/*" required>
+                        <input type="text" id="popularName" name="name" placeholder="Popular Item Name" required>
+                        <input type="number" id="popularPrice" name="price" placeholder="Price" required>
+                        <input type="text" id="popularCategory" name="category" placeholder="Category" required>
+                        <textarea id="popularDescription" name="description" placeholder="Description"
+                            required></textarea>
+                        <input type="submit" class="add-product-button" value="Add Popular Item">
+                    </form>
+                </div>
+                <button class="slide-buttons" onclick="display()">Add Food</button>
+            </div>
+            <div class="edit-popular-form-container" style="display:none;">
+                <form id="editPopularForm" class="edit-product-button" action="/admin/popular/:_id" method="POST"
+                    enctype="multipart/form-data">
+                    <input type="hidden" id="editPopularId" name="id">
+                    <input type="file" id="editPopularImage" name="image" accept="image/*" required>
+                    <input type="text" id="editPopularName" name="name" placeholder="Popular Item Name" required>
+                    <input type="number" id="editPopularPrice" name="price" placeholder="Price" required>
+                    <input type="text" id="editPopularCategory" name="category" placeholder="Category" required>
+                    <textarea id="editPopularDescription" name="description" placeholder="Description"
+                        required></textarea>
+                    <input type="submit" class="edit-product-button" value="Update Product">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="payments" style="display:none;">
+        <!-- Payment Information Display -->
+        <!-- You would fetch and display payment information here -->
+        <div id="paymentList">
+            <div class="order-details">
+                <% 
+                // Sort orders array in descending order based on createdAt
+                orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                // Iterate over sorted orders
+                orders.forEach(order => { 
+                %>
+                <div class="order">
+                    <h3>customerName:<span><%= order.customerName %></span></h3>
+                    <h3>customerEmail:<span><%= order.customerEmail %></span></h3>
+                    <h3>totalPrice:<span><%= order.totalPrice %></span></h3>
+                    <h3>createdAt:<span><%= order.createdAt %></span></h3>
+                    <ul>
+                        <% 
+                        order.products.forEach(product => { 
+                        %>
+                        <h3>productName:<span><%= product.name %> - <%= product.quantity %> qty</span></h3>
+                        <% 
+                        }); 
+                        %>
+                    </ul>
+                </div>
+                <% 
+                }); 
+                %>
+                <button id="showMoreorder" >Show More</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>// script.js
+
+
+        // Function to edit a product
+        document.querySelectorAll(".editproduct").forEach(button => {
+            button.addEventListener("click", function () {
+                // Get product details
+                const productId = this.getAttribute('data-product-id');
+                const productImage = this.getAttribute('data-product-image');
+                const productName = this.getAttribute('data-product-name');
+                const productPrice = this.getAttribute('data-product-price');
+                const productCategory = this.getAttribute('data-product-category');
+                const productDescription = this.getAttribute('data-product-description');
+
+                // Populate the edit form with product details
+                document.getElementById('editProductImage').src = productImage;
+                document.getElementById('editProductName').value = productName;
+                document.getElementById('editProductPrice').value = productPrice;
+                document.getElementById('editProductCategory').value = productCategory;
+                document.getElementById('editProductDescription').value = productDescription;
+
+                // Set the product ID in the hidden input field
+                document.getElementById('editProductId').value = productId;
+
+                // Show the edit form
+                document.querySelector('.edit-form-container').style.display = 'block';
+            });
+        });
+
+        document.getElementById('editProductForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const formData = new FormData(this);
+
+            // Log form data
+            console.log('Form Data:');
+            for (const [key, value] of formData.entries()) {
+                console.log(key + ':', value);
+            }
+
+            // Get the product ID from the form data
+            const productId = formData.get('id');
+            console.log('Product ID:', productId); // Log the product ID
+
+            // Send form data to the server
+            try {
+                const response = await fetch(`/admin/${productId}`, {
+                    method: 'PUT',
+                    body: formData
+                });
+                const responseData = await response.json(); // Assuming server returns JSON response
+                if (response.ok) {
+                    console.log('Product updated successfully');
+                    // Reload the page or update UI as needed
+                    location.reload();
+
+                } else {
+                    console.error('Failed to update product:', responseData.error); // Log server error
+                }
+            } catch (error) {
+                console.error('Error updating product:', error);
+            }
+        });
+
+        document.querySelectorAll(".editproducts").forEach(button => {
+            button.addEventListener("click", function () {
+                // Get popular product details
+                const popularId = this.getAttribute('data-popular-id');
+                const productImage = this.getAttribute('data-popular-image');
+                const productName = this.getAttribute('data-popular-name');
+                const productPrice = this.getAttribute('data-popular-price');
+                const productCategory = this.getAttribute('data-popular-category');
+                const productDescription = this.getAttribute('data-popular-description');
+
+                // Populate the edit form with popular product details
+                document.getElementById('editPopularImage').src = productImage;
+                document.getElementById('editPopularName').value = productName;
+                document.getElementById('editPopularPrice').value = productPrice;
+                document.getElementById('editPopularCategory').value = productCategory;
+                document.getElementById('editPopularDescription').value = productDescription;
+
+                // Set the popular product ID in the hidden input field
+                document.getElementById('editPopularId').value = popularId;
+
+                // Show the edit form for popular products
+                document.querySelector('.edit-popular-form-container').style.display = 'block';
+            });
+        });
+
+        // Handle click event for hiding the edit form
+        document.querySelector(".edit-product-button").addEventListener("click", function () {
+            document.querySelector('.edit-form-container').style.display = 'none';
+            window.location.reload();
+
+        });
+        document.querySelector('.edit-product-button input[type="submit"]').addEventListener("click", function () {
+            document.querySelector('.edit-popular-form-container').style.display = 'none';
+            window.location.reload();
+        });
+
+
+        // Handle edit form submission for popular products
+        document.getElementById('editPopularForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const formData = new FormData(this);
+
+            // Log form data
+            console.log('Form Data:');
+            for (const [key, value] of formData.entries()) {
+                console.log(key + ':', value);
+            }
+
+            // Get the popular product ID from the form data
+            const popularId = formData.get('id');
+            console.log('Popular Product ID:', popularId); // Log the popular product ID
+
+            // Replace the placeholder in the form action attribute with the actual ID value
+            const formAction = `/admin/popular/${popularId}`;
+            this.setAttribute('action', formAction);
+
+            // Send form data to the server
+            try {
+                const response = await fetch(formAction, {
+                    method: 'PUT',
+                    body: formData
+                });
+                const responseData = await response.json(); // Assuming server returns JSON response
+                if (response.ok) {
+                    console.log('Popular product updated successfully');
+                    // Reload the page or update UI as needed
+                    location.reload();
+                } else {
+                    console.error('Failed to update popular product:', responseData.error); // Log server error
+                }
+            } catch (error) {
+                console.error('Error updating popular product:', error);
+            }
+        });
+
+
+        //         document.getElementById('editPopularForm').addEventListener('submit', async function (event) {
+        //     event.preventDefault(); // Prevent default form submission
+
+        //     // Get form data
+        //     const formData = new FormData(this);
+
+        //     // Log form data
+        //     console.log('Form Data:');
+        //     for (const [key, value] of formData.entries()) {
+        //         console.log(key + ':', value);
+        //     }
+
+        //     // Get the popular item ID from the form data
+        //     const popularId = formData.get('id');
+        //     console.log('Popular ID:', popularId);
+
+        //     // Send form data to the server
+        //     try {
+        //         const response = await fetch(`/admin/${popularId}`, {
+        //             method: 'PUT', // Assuming PUT method is used for updating popular products
+        //             body: formData
+        //         });
+        //         const responseData = await response.json(); // Assuming server returns JSON response
+        //         if (response.ok) {
+        //             console.log('Popular product updated successfully');
+        //             // Reload the page or update UI as needed
+        //             // location.reload();
+        //         } else {
+        //             console.error('Failed to update popular product:', responseData.error); // Log server error
+        //         }
+        //     } catch (error) {
+        //         console.error('Error updating popular product:', error);
+        //     }
+        // });
+
+
+
+        // Function to delete a product
+        // Add event listener to all elements with class "deleteproduct"
+        document.querySelectorAll('.deleteproduct').forEach(button => {
+            button.addEventListener('click', function () {
+                const productId = this.getAttribute('data-product-id');
+                deleteProduct(productId);
+                location.reload();
+                document.getElementById('products').style.display = 'block';
+            });
+        });
+        // Function to delete a product
+        const deleteProduct = async (productId) => {
+            try {
+                const response = await fetch(`/admin/${productId}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    console.log('Product deleted successfully');
+                    // Optionally, you can update the UI here after successful deletion
+                } else {
+                    console.error('Failed to delete product');
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        };
+
+
+        function decodeHtml(html) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
+
+        function overview() {
+            document.querySelector('.overview').style.display = 'block';
+            document.getElementById('users').style.display = 'none';
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('populars').style.display = 'none';
+            document.getElementById('payments').style.display = 'none';
+        }
+
+
+        function showUsers() {
+            document.querySelector('.overview').style.display = 'none';
+            document.getElementById('users').style.display = 'block';
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('populars').style.display = 'none';
+            document.getElementById('payments').style.display = 'none';
+        }
+
+        function showProducts() {
+            document.querySelector('.overview').style.display = 'none';
+            document.getElementById('users').style.display = 'none';
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('populars').style.display = 'none';
+            document.getElementById('payments').style.display = 'none';
+        }
+        function showPopulars() {
+            document.querySelector('.overview').style.display = 'none';
+            document.getElementById('users').style.display = 'none';
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('populars').style.display = 'block';
+            document.getElementById('payments').style.display = 'none';
+
+        }
+
+        function showPayments() {
+            document.querySelector('.overview').style.display = 'none';
+            document.getElementById('users').style.display = 'none';
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('populars').style.display = 'none';
+            document.getElementById('payments').style.display = 'block';
+        }
+
+        var userJson = '<%= userJson %>';
+        // Assuming userJson is the JSON string passed from the server
+        const decodedUserJson = userJson.replace(/&#34;/g, '"');
+
+        // Now parse the decoded JSON string
+        const users = JSON.parse(decodedUserJson);
+        console.log(users);
+        // Assuming productJson is the JSON string passed from the server for products
+        function toggleSlide() {
+            var form = document.querySelector('.slide-form');
+            form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+            if (form.style.display === 'block') {
+                document.querySelector('.slide-button').style.display = "none"
+            }
+
+        }
+        function display() {
+            var form = document.querySelector('.slide-forms');
+            form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+            if (form.style.display === 'block') {
+                document.querySelector('.slide-buttons').style.display = "none"
+            }
+
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const userList = document.getElementById("userList");
+            const showMoreBtn = document.getElementById("showMoreBtn");
+            var decodeduserJson = decodeHtml(`<%= userJson %>`);
+            var users = JSON.parse(decodeduserJson);
+            var currentIndex = 0;
+
+            function renderUsers(startIndex, count) {
+    // Calculate the end index based on count
+    const endIndex = Math.max(0, users.length - startIndex - count);
+
+    // Iterate over users array in reverse order
+    for (let i = users.length - 1 - startIndex; i >= endIndex; i--) {
+        const user = users[i];
+        if (user.admin !== "admin") {
+            const userElement = document.createElement("div");
+            userElement.classList.add("user");
+            userElement.innerHTML = `
+                <h2>User Details</h2>
+                <p>Username: ${user.username}</p>
+                <p>Email: ${user.email}</p>
+                <p>Date of Birth: ${user.dob}</p>
+                <p>Gender: ${user.gender}</p>
+            `;
+            userList.appendChild(userElement);
+        }
+    }
+}
+
+            function showMoreUsers() {
+                const remainingUsers = users.length - currentIndex;
+                if (remainingUsers > 0) {
+                    const batchSize = Math.min(10, remainingUsers);
+                    renderUsers(currentIndex, batchSize);
+                    currentIndex += batchSize;
+                }
+                if (currentIndex >= users.length) {
+                    showMoreBtn.style.display = "none";
+                }
+            }
+
+            showMoreBtn.addEventListener("click", showMoreUsers);
+
+            // Initially render the first batch of users
+            showMoreUsers();
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+    const orderContainer = document.querySelector(".order-details");
+    const showMoreButton = document.getElementById("showMoreorder");
+
+    // console.log("Number of orders:", orderContainer.querySelectorAll(".order").length);
+
+    if (orderContainer.querySelectorAll(".order").length >= 5) {
+        showMoreButton.style.display = "block";
+        // console.log("Displaying 'Show More' button");
+    } else {
+        console.log("Not displaying 'Show More' button");
+    }
+
+    showMoreButton.addEventListener("click", function () {
+        // Show more orders
+        const hiddenOrders = document.querySelectorAll(".order:not(:visible)");
+        hiddenOrders.forEach(function (order) {
+            order.style.display = "block";
+        });
+
+        // Hide the button if all orders are displayed
+        if (orderContainer.querySelectorAll(".order:not(:visible)").length === 0) {
+            showMoreButton.style.display = "none";
+            // console.log("Hiding 'Show More' button");
+        }
+    });
+});
+
+
+    </script>
+</body>
+
+</html>

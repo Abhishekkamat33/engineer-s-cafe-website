@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="/stylesheets/register.css" rel="stylesheet">
+</head>
+<body>
+  <div class="bgimage">
+    <img src="https://img.freepik.com/free-vector/delivery-staff-ride-motorcycles-shopping-concept_1150-34879.jpg?w=740&t=st=1702175610~exp=1702176210~hmac=fc4ca81e287a0f589dc1e3c0975a0325492818bd04e733f1df937ca0a59e1966" alt="" >
+  </div>
+    <div class="container">
+        <div class="top">
+            <h1>signup Page</h1>
+        </div>
+        <form action="/register" method="POST">
+          <div class="username">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required><br><br>
+        </div>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required><br><br>
+          
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required><br><br>
+          
+          <label id="label" for="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" required><br><br>
+
+
+          <div class="gender">
+          <label for="gender">Gender:</label>
+          <input type="radio" id="male" name="gender" value="male" required>
+          <label for="male">Male</label>
+          <input type="radio" id="female" name="gender" value="female" required>
+          <label for="female">Female</label><br><br>
+        </div>
+          <input type="submit" value="Sign Up"><br>
+         <span>or</span>
+          <div class="login"><h4>Already have account?</h4><a id="login"href="/login">login</a></div>
+        </form>
+    </div>
+    </div>
+</body>
+</html>
+

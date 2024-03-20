@@ -1,0 +1,99 @@
+body{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-size:20px;
+    /* background-image: url(bg.jpg);
+    background-color: skyblue;
+    background-repeat: no-repeat;
+    background-size: 1500px 620px;  
+  
+    color: White; */
+}
+.bgimage img{
+        position: absolute;
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+        opacity: 0.5;
+}
+.container{
+    text-align: center;
+    position: absolute;
+    top: 10%;
+    left: 35%;
+    border: 2px solid  #DFB7E3; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    border-radius: 15px;
+    width: 400px;
+    color: black;
+    overflow: hidden;
+   
+}
+h1{
+    color: black;
+    font-size: 40px;
+}
+
+input{
+    width: 200px;
+    height: 20px;
+    border-radius: 7px;
+    text-align: center;
+    border: #DFB7E3 solid 1px;
+    background-color: #eee;
+}
+ input[type="text"]{
+    font-size: 18px;
+    margin-left: 15px;
+}
+input[type="email"]{
+    font-size: 18px;
+    margin-left:45px;
+}
+#password{
+    margin-left: 15px
+}
+input[type="submit"]{
+    font-size: 20px;
+    width: 100px;
+    height: 30px;
+    background-color: #ced4f7;
+}
+#label{
+    padding-right: 10px;
+}
+#dob{
+    margin-right: 22px;
+    width: 200px;
+}
+.gender{
+    position:absolute;
+    left: 18%;
+    width: 200px;
+    display: flex;
+    gap: 10px;
+}
+input[type="submit"]{
+    margin-top: 40px;
+}
+input[type="submit"]:hover{
+    color:white;	
+    background-color: blue;	
+}
+input[type="radio"]
+{
+    font-size: 15px;
+    size: 10px;
+    height:12px;
+} 
+#login{
+    text-decoration: none;
+    color:rgb(77, 77, 168);
+    cursor: pointer;
+}
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

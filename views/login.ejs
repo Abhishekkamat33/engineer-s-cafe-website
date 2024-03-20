@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="/stylesheets/login.css" rel="stylesheet">
+</head>
+<body>
+    <div class="bgimage">
+        <img src="https://img.freepik.com/free-vector/delivery-staff-ride-motorcycles-shopping-concept_1150-34879.jpg?w=740&t=st=1702175610~exp=1702176210~hmac=fc4ca81e287a0f589dc1e3c0975a0325492818bd04e733f1df937ca0a59e1966" alt="" >
+      </div>
+    <div id="container">
+        <div class="top">
+            <h1>Login Page</h1>
+        </div>
+        <% if (error === 'userNotFound') { %>
+            <p class="error-message">User not found.</p>
+        <% } else if (error === 'incorrectPassword or username') { %>
+            <p class="error-message">Incorrect password or username..</p>
+        <% } %>
+        <form action="/login" method="POST">
+            <div>
+                <label id="user" for="email">Email:</label>
+                <input type="text" class="input" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" class="input" name="password" required>  
+            </div>
+            <div>
+                <input type="submit" id="btn" value="Login">
+            </div>
+            <span>or</span>
+            <a href="/register">Not signup</a>
+        </form>
+    </div>
+    </div>
+    <script ></script>
+</body>
+</html>

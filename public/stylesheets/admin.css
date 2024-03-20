@@ -1,0 +1,546 @@
+  /* styles.css */
+
+/* Resetting default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    color: #ccc;
+}
+
+/* Content styles */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+/* #userList{
+
+    overflow: hidden;
+} */
+
+#showMoreBtn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#showMoreBtn:hover {
+    background-color: #0056b3;
+}
+
+.content h2 {
+    margin-bottom: 20px;
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+.over{
+    display: block;
+}
+.overview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    min-width: 75vw;
+    border: 1px solid #ccc;
+    margin-left: 270px;
+    border-radius: 5px;
+    background-image: url("https://image.slidesdocs.com/responsive-images/slides/0-blue-3d-frosted-glass-work-review-powerpoint-background_4cf53dc20f__960_540.jpg");
+    height: 100vh;
+    position: fixed;
+}
+
+.overview-item {
+    background-color: rgba(0, 0, 0, 0.114);
+    margin: 30px;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+.edit-form{
+    display: none;
+}
+.overview-item h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.overview-item .value {
+    margin: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
+
+
+
+/* User, Product, Payment container styles */
+#users, #products, #payments {
+    display: none;
+
+}
+#products {
+    position: relative;
+}
+#populars {
+    position: relative;
+}
+.edit-form-container {
+    width: 400px;
+    height: 600px;
+    position: absolute;
+    top: 0; /* Adjust this value as needed */
+    left: 170px;/* Adjust this value as needed */
+    z-index: 100; /* Adjust this value if necessary to ensure the form appears above other elements */
+ /* Set the background color to make the form stand out */
+    padding: 20px; /* Add padding for better appearance */
+    border: 1px solid #ccc; /* Add border for visual separation */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+    display: none; 
+}
+
+.edit-popular-form-container{
+    width: 400px;
+    height: 600px;
+    position: absolute;
+    top: 0; /* Adjust this value as needed */
+    left: 170px; /* Adjust this value as needed */
+    z-index: 100;
+     /* Adjust this value if necessary to ensure the form appears above other elements */
+ /* Set the background color to make the form stand out */
+    padding: 20px; /* Add padding for better appearance */
+    border: 1px solid #ccc; /* Add border for visual separation */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+    display: none; 
+}
+#editPopularForm{
+    width: 400px;
+    height: 550px;
+     /* Initially hide the form */
+    position: absolute;
+    top: 50%; /* Center the form vertically */
+    left: 45%; /* Center the form horizontally */
+    transform: translate(-50%, -50%); /* Center the form precisely */
+    z-index: 1000; /* Ensure the form appears above other elements */
+    background-color: white; /* Background color */
+    padding: 20px; /* Padding for better appearance */
+    border: 1px solid #ccc; /* Border for visual separation */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+}
+/* Style form container */
+.edit-product-button {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Style form inputs */
+.edit-product-button input[type="text"],
+.edit-product-button input[type="number"],
+.edit-product-button textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+}
+
+/* Style submit button */
+.edit-product-button input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Change submit button color on hover */
+.edit-product-button input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Style file input */
+.edit-product-button input[type="file"] {
+    display: block; /* Make file input a block element to occupy full width */
+    margin-bottom: 10px;
+}
+
+/* Style textarea */
+.edit-product-button textarea {
+    resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+#editProductForm {
+    width: 400px;
+    height: 550px;
+     /* Initially hide the form */
+    position: absolute;
+    top: 50%; /* Center the form vertically */
+    left: 50%; /* Center the form horizontally */
+    transform: translate(-50%, -50%); /* Center the form precisely */
+    z-index: 1000; /* Ensure the form appears above other elements */
+    background-color: white; /* Background color */
+    padding: 20px; /* Padding for better appearance */
+    border: 1px solid #ccc; /* Border for visual separation */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+}
+
+#editProductForm input,
+#editProductForm textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+#editProductForm textarea {
+    height: 80px;
+    
+}
+#editProductForm input[type="submit"] {
+    background-color: #4CAF50; /* Green submit button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 0px;
+}
+
+#editProductForm input[type="submit"]:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+
+
+#productList{
+    position: relative;
+}
+
+.user {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        padding-bottom: 20px;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+/* Add more styles as needed */
+
+.add-product-button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.add-product-button:hover {
+    background-color: #45a049; /* Darker green */
+}
+/*product*/
+.slide-form-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+  
+
+    .slide-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+.slide-buttons {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+    .slide-form {
+        display: none;
+        width: 50%;
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .slide-forms {
+        display: none;
+        width: 50%;
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    #foodForm input[type="text"],
+    #foodForm input[type="number"],
+    #foodForm textarea {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    #foodForm input[type="file"] {
+        margin-bottom: 10px;
+    }
+
+    #foodForm textarea {
+        resize: vertical;
+        height: 100px;
+    }
+
+    #foodForm input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #foodForm input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+.add-product-button{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.add-product-button:hover {
+    background-color: #45a049;
+}
+
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            table-layout: fixed;
+        }
+        
+        /* Style for table header */
+        th {
+            background-color: #f2f2f2;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        /* Style for table rows */
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Style for alternating row colors */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Style for table data cells */
+        td {
+            padding: 10px;
+        }
+        
+        /* Style for images in cells */
+        td img {
+            max-width: 100px;
+            max-height: 100px;
+            display: block;
+            margin: 0 auto;
+        }
+    /* Add more styles as needed */
+   /* Style for delete button */
+.deleteproduct {
+    background-color: #ff0000; /* Red background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove button border */
+    padding: 5px 10px; /* Add padding */
+    cursor: pointer; /* Add pointer cursor on hover */
+}
+
+/* Style for edit button */
+.editproduct {
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove button border */
+    padding: 5px 10px; /* Add padding */
+    cursor: pointer; /* Add pointer cursor on hover */
+}
+.editproducts {
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove button border */
+    padding: 5px 10px; /* Add padding */
+    cursor: pointer; /* Add pointer cursor on hover */
+}
+
+/* Hover effect for buttons */
+button:hover {
+    opacity: 0.8; /* Reduce opacity on hover */
+}
+.order-details{
+    position: absolute;
+    left: 20%;
+    top: 0;
+}
+.order{
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+span{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+h3{
+    margin-bottom: 10px;
+}
+#showMoreorder{
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-left: 40%;
+}
+@media (max-width: 768px) {
+    .order-details{
+        width: 60%;
+        position: relative;
+        height: auto;
+        padding-bottom: 20px;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+@media (max-width: 768px) {
+    .overview{
+        width: 100%;
+        position: relative;
+        margin-left: -10px;
+        height: auto;
+        padding-bottom: 20px;
+    }
+    .over{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+#showMoreorder{
+    display: none;
+}

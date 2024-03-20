@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <!-- Include any CSS files or stylesheets here -->
+    <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+</head>
+<link rel="stylesheet" href="/stylesheets/order.css">
+
+<body>
+ <div class="header">
+    <a href="/profile">Home</a>
+  <a href="/product">Menu</a>
+  </div>
+    <h1>Order Details</h1>
+    <div class="cartinfo">
+            <% var orderProductJson=JSON.stringify(orderproduct); %>
+                <% var orderPopularJson=JSON.stringify(orderpopular); %>
+                <div class="order">
+                    <% orderpopular.forEach(function(item) { %>
+                           <div class="popular">
+                            <div class="product-details">
+                                <img class="food-image" src="<%= item.image_url %>" alt="<%= item.name %>">
+                                <div class="info">
+                                    <div class="food-name">
+                                        <%= item.name %>
+                                    </div>
+                                    <div class="food-category">
+                                        <%= item.category %>
+                                    </div>
+                               </div>
+                             </div>
+                                <div class="quantity-controls">
+                                    <div class="decrease">-</div>
+                                    <span class="quantity">1</span>
+                                    <div class="increase">+</div>
+                                </div>
+                                <div class="food-price">
+                                    <%= item.price.toFixed(2) %>
+                                </div>                            
+                                    <button class="cancel" data-product-id="<%= item._id %>">Cancel</button>
+
+                            </div>
+                            <% }); %>
+                     
+
+                        <!-- Iterate over orderproduct -->
+
+                        <% orderproduct.forEach(function(item) { %>
+                            <div class="product">
+                                <div class="product-details">
+                                    <img class="food-image" src="<%= item.image_url %>" alt="<%= item.name %>">
+                                    <div class="info">
+                                        <div class="food-name">
+                                            <%= item.name %>
+                                        </div>
+                                        <div class="food-category">
+                                            <%= item.category %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="quantity-controls">
+                                    <div class="decrease">-</div>
+                                    <span class="quantity">1</span>
+                                    <div class="increase">+</div>
+                                </div>
+                                <div class="food-price">
+                                    <%= item.price.toFixed(2) %>
+                                </div>
+                                <button class="cancel" data-product-id="<%= item._id %>">Cancel</button>
+
+                            </div>
+                            <% }); %>
+                </div>
+        <hr>
+        <div id="total">total:</div>
+        <div id="totalprice">000</div>
+        <h2>Customer Order Form</h2>
+        <form action="/checkout" method="POST">
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+            
+            <button type="submit" class="payment" id="payment-button">Pay with khalti</button>
+
+        </form>
+    </div>
+</body>
+<script>
+ 
+
+var config = {
+            // replace the publicKey with yours
+            "publicKey": "test_public_key_d8aa942873bd434ba6fed915ad3ebed1",
+            "productIdentity": "1234567890",
+            "productName": "Dragon",
+            "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+            "paymentPreference": [
+                "KHALTI",
+                "EBANKING",
+                "MOBILE_BANKING",
+                "CONNECT_IPS",
+                "SCT",
+                ],
+            "eventHandler": {
+                onSuccess (payload) {
+                    // hit merchant api for initiating verfication
+                    console.log(payload);
+                },
+                onError (error) {
+                    console.log(error);
+                },
+                onClose () {
+                    console.log('widget is closing');
+                }
+            }
+        };
+
+        var checkout = new KhaltiCheckout(config);
+    var btn = document.getElementById("payment-button");
+    btn.onclick = function() {
+        // Fetch the total price from the totalprice div
+        var totalPrice = parseFloat(document.getElementById("totalprice").innerText);
+        // Convert totalPrice to paisa (1 NPR = 100 paisa)
+        var amountInPaisa = totalPrice * 100;
+
+        // Show Khalti checkout widget with the calculated amount
+        checkout.show({ amount: amountInPaisa });
+    }
+  
+
+
+// JavaScript code for cancel button functionality
+document.querySelectorAll('.cancel').forEach(cancelBtn => {
+    cancelBtn.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        console.log('Clicked cancel button for product ID:', productId);
+
+        // Send a POST request to the server to cancel the product
+        fetch('/cancel-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId: productId })
+        })
+        .then(response => {
+            if (response.ok) {
+                // If cancellation is successful, remove the product from the DOM
+                const productElement = this.closest('.popular, .product');
+                console.log('Product element:', productElement);
+                if (productElement) {
+                    productElement.remove();
+                } else {
+                    console.error('Product element not found.');
+                }
+
+                // Remove the product from sessionStorage
+                removeFromSessionStorage(productId);
+            } else {
+                console.error('Failed to cancel product.');
+            }
+        })
+        .catch(error => {
+            console.error('Error occurred:', error);
+        });
+    });
+});
+
+// Function to remove the product from sessionStorage
+function removeFromSessionStorage(productId) {
+    const productArray = JSON.parse(sessionStorage.getItem('productArray')) || [];
+    const index = productArray.indexOf(productId);
+    if (index !== -1) {
+        productArray.splice(index, 1);
+        sessionStorage.setItem('productArray', JSON.stringify(productArray));
+    }
+}
+
+// Function to initialize product quantity controls
+function initializeProductQuantityControls(productContainer) {
+    const decreaseBtn = productContainer.querySelector('.decrease');
+    const increaseBtn = productContainer.querySelector('.increase');
+    const quantityElement = productContainer.querySelector('.quantity');
+    const priceElement = productContainer.querySelector('.food-price');
+
+    // Store the original price value
+    const originalPrice = parseFloat(priceElement.textContent);
+
+    // Function to update price based on quantity
+    function updatePrice(quantity) {
+        const totalPrice = originalPrice * quantity;
+        priceElement.textContent = totalPrice.toFixed(2);
+        updateTotalOrderPrice(); // Update total price whenever product price changes
+    }
+
+    // Event listener for decrease button
+    decreaseBtn.addEventListener('click', function() {
+        let quantity = parseInt(quantityElement.textContent);
+        if (quantity > 1) {
+            quantity--;
+            quantityElement.textContent = quantity;
+            updatePrice(quantity);
+        }
+    });
+
+    // Event listener for increase button
+    increaseBtn.addEventListener('click', function() {
+        let quantity = parseInt(quantityElement.textContent);
+        quantity++;
+        quantityElement.textContent = quantity;
+        updatePrice(quantity);
+    });
+
+    // Event listener for cancel button
+    const cancelButton = productContainer.querySelector('.cancel');
+    cancelButton.addEventListener('click', function() {
+        // Remove the product from the DOM or update its display as needed
+        productContainer.remove(); // Example: Remove the product container
+        updateTotalOrderPrice(); // Update total price whenever a product is canceled
+    });
+}
+
+// Initialize quantity controls for each product
+document.querySelectorAll('.popular, .product').forEach(productContainer => {
+    initializeProductQuantityControls(productContainer);
+});
+
+// Function to calculate the total order price
+function calculateTotalOrderPrice() {
+    let total = 0;
+    const foodItems = document.querySelectorAll('.food-price');
+
+    foodItems.forEach(foodItem => {
+        const totalPrice = parseFloat(foodItem.textContent);
+        total += totalPrice;
+    });
+
+    return total;
+}
+
+// Function to update the total price in the HTML
+function updateTotalOrderPrice() {
+    const totalPrice = calculateTotalOrderPrice();
+    const formattedTotalPrice = totalPrice.toFixed(2); // Format total price with two decimal places
+    document.getElementById('totalprice').textContent = formattedTotalPrice;
+}
+
+// Wrap the code inside a DOMContentLoaded event listener to ensure it runs after the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Call the function to update total price initially
+    updateTotalOrderPrice();
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Add event listener to the checkout button
+    document.getElementById("payment-button").addEventListener("click", function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        // Retrieve form data
+        const fullname = document.getElementById("fullname").value;
+        const email = document.getElementById("email").value;
+        const address = document.getElementById("address").value;
+
+        // Retrieve product IDs and quantities
+        const productsWithQuantities = [];
+        const orderProducts = document.querySelectorAll('.popular, .product');
+        orderProducts.forEach(product => {
+            const productId = product.querySelector('.cancel').dataset.productId;
+            const quantity = parseInt(product.querySelector('.quantity').innerText);
+            productsWithQuantities.push({ productId, quantity });
+        });
+
+        const totalPrice = document.getElementById("totalprice").innerText;
+        const requestBody = {
+            productsWithQuantities: productsWithQuantities,
+            totalPrice: parseFloat(totalPrice),
+            customerName: fullname,
+            customerEmail: email,
+            customerAddress: address
+        };
+
+        // Send a POST request to the server with the product array and quantities in the request body
+        fetch('/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        })
+        .then(response => {
+            if (response.ok) {
+                // Handle successful response
+                console.log('Order placed successfully.');
+            } else {
+                // Handle error response
+                console.error('Failed to place order.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+
+</script>
+
+</html>

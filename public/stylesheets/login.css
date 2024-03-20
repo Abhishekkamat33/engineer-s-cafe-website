@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Pixelify+Sans&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size:20px;
+  font-family: 'Montserrat', sans-serif;
+}
+.bgimage img{
+     position: absolute; 
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+    opacity: 0.5;
+}
+#container {
+    text-align: center; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+     border: 2px solid  #DFB7E3; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    border-radius: 15px;
+    width: 400px;
+    height: 450px;
+    
+    /* min-height: 280px; */
+    /* min-width: 300px; */
+    /* background-color: white; */
+    overflow: hidden;
+}
+#container{
+    position: relative;
+    left: 35%;
+    top: 50px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 100%;
+}
+.top {
+    background-color: #c4d3ec;
+    background: linear-gradient(to left, #DFB7E3, #B5C7E7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    border-radius: 0 0 40px 40px;
+}
+.top:hover {
+    transition: .4s;
+    border-radius: 0;
+    width: 100%;
+}
+.input {
+    border-radius: 7px;
+    background-color: #eee;
+    border: none;
+    border-top: #DFB7E3 solid 1px;
+    padding:5px;
+    padding-left: 10px;
+    border-bottom: #DFB7E3 solid 1px;
+}
+#user{
+    margin-right: 40px;
+}
+#btn{
+    width: 60px;
+    height: 25px;
+    border: 1px solid ;
+    border-radius: 4px ;
+    cursor: pointer;
+}
+#btn:hover{
+    box-shadow: none;
+    transition: none;
+    border: solid 1px #ccc;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
